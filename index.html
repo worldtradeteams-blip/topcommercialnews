@@ -60,7 +60,13 @@
   <details><summary>Technical Details</summary><pre id="technical-details"></pre></details>
 </div>
 
+   <div class="tab-bar" role="tablist" aria-label="Page views">
+  <button class="tab-btn active" data-tab="dashboard" role="tab" aria-selected="true">Dashboard</button>
+  <button class="tab-btn" data-tab="sources" role="tab" aria-selected="false">Source Status</button>
+</div>
+
 <main>
+  <section id="tab-dashboard" class="tab-panel active">
   <section class="dashboard-cards">
     <div class="dash-card"><span id="count-total">0</span><label>Latest Stories</label></div>
     <div class="dash-card"><span id="count-high">0</span><label>High Importance</label></div>
@@ -147,13 +153,17 @@
     <span id="next-update"></span>
   </section>
 
-  <section id="source-status-panel">
-    <h4>Source Status</h4>
-    <div id="source-status-list"></div>
-  </section>
-
   <section id="news-feed" class="news-feed" aria-live="polite"></section>
   <button id="load-more" class="load-more">Load More</button>
+  </section>
+
+  <section id="tab-sources" class="tab-panel">
+    <section id="source-status-panel">
+      <h4>Source Status</h4>
+      <p class="source-status-note">Live availability results from the most recent fetch of each configured RSS source.</p>
+      <div id="source-status-list"></div>
+    </section>
+  </section>
 </main>
 
 <div id="news-modal" class="modal" role="dialog" aria-modal="true" style="display:none;">
