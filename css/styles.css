@@ -29,6 +29,15 @@ a{color:var(--accent);}
 .side-panel label{display:block;margin:12px 0;font-size:.85rem;}
 .side-panel select{width:100%;margin-top:4px;padding:6px;}
 
+.tab-bar{display:flex;gap:4px;padding:0 24px;background:var(--header-bg);border-bottom:1px solid var(--border);}
+.tab-btn{background:none;border:none;padding:10px 16px;font-size:.85rem;font-weight:600;color:var(--muted);
+  cursor:pointer;border-bottom:2px solid transparent;}
+.tab-btn:hover{color:var(--text);}
+.tab-btn.active{color:var(--accent);border-color:var(--accent);}
+.tab-panel{display:none;}
+.tab-panel.active{display:block;}
+.source-status-note{font-size:.78rem;color:var(--muted);margin-bottom:10px;}
+
 main{padding:16px 24px;max-width:1400px;margin:0 auto;}
 
 .dashboard-cards{display:grid;grid-template-columns:repeat(8,1fr);gap:10px;margin-bottom:16px;}
