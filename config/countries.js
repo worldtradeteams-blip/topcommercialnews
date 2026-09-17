@@ -1,0 +1,30 @@
+const COUNTRIES = {
+  "United States": "North America", "Canada": "North America",
+  "United Kingdom": "Europe", "European Union": "Europe",
+  "China": "East Asia", "Japan": "East Asia", "South Korea": "East Asia",
+  "Singapore": "Southeast Asia", "Vietnam": "Southeast Asia", "Thailand": "Southeast Asia",
+  "Malaysia": "Southeast Asia", "Indonesia": "Southeast Asia", "Philippines": "Southeast Asia",
+  "Cambodia": "Southeast Asia", "Laos": "Southeast Asia", "Myanmar": "Southeast Asia", "Brunei": "Southeast Asia",
+  "India": "South Asia",
+  "United Arab Emirates": "Middle East",
+  "Brazil": "Latin America",
+  "Russia": "Eurasia",
+};
+const COUNTRY_KEYWORDS = {
+  "United States": ["united states", "u.s.", "usa", "washington", "white house", "american"],
+  "Canada": ["canada", "canadian", "ottawa"],
+  "United Kingdom": ["united kingdom", "britain", "u.k.", "british", "london"],
+  "European Union": ["european union", "eu ", "brussels", "eurozone"],
+  "China": ["china", "chinese", "beijing", "shanghai"],
+  "Japan": ["japan", "japanese", "tokyo"],
+  "South Korea": ["south korea", "korean", "seoul"],
+  "Singapore": ["singapore"], "Vietnam": ["vietnam", "hanoi"], "Thailand": ["thailand", "bangkok"],
+  "Malaysia": ["malaysia", "kuala lumpur"], "Indonesia": ["indonesia", "jakarta"],
+  "Philippines": ["philippines", "manila"], "Cambodia": ["cambodia"], "Laos": ["laos"],
+  "Myanmar": ["myanmar"], "Brunei": ["brunei"],
+  "India": ["india", "indian", "delhi", "mumbai"],
+  "United Arab Emirates": ["united arab emirates", "uae", "dubai", "abu dhabi"],
+  "Brazil": ["brazil", "brazilian", "brasilia", "sao paulo"],
+  "Russia": ["russia", "russian", "moscow", "kremlin"],
+};
+if (typeof module !== "undefined") module.exports = { COUNTRIES, COUNTRY_KEYWORDS };

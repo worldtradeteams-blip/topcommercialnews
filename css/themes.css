@@ -1,0 +1,10 @@
+:root[data-theme="light"]{
+  --bg:#f4f6f8; --text:#1a1d21; --muted:#666f79; --border:#dfe3e7;
+  --header-bg:#ffffff; --card-bg:#ffffff; --panel-bg:#ffffff; --chip-bg:#eef1f4;
+  --accent:#1a5fb4; --btn-bg:#ffffff; --btn-text:#1a1d21;
+}
+:root[data-theme="dark"]{
+  --bg:#12161b; --text:#e8ebee; --muted:#9aa4ae; --border:#2a3138;
+  --header-bg:#171c22; --card-bg:#1b2129; --panel-bg:#171c22; --chip-bg:#232b33;
+  --accent:#5b9bd5; --btn-bg:#1b2129; --btn-text:#e8ebee;
+}

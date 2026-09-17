@@ -1,0 +1,13 @@
+@media (max-width: 1100px){
+  .dashboard-cards{grid-template-columns:repeat(4,1fr);}
+  .filters-panel.open{grid-template-columns:repeat(2,1fr);}
+}
+@media (max-width: 700px){
+  .site-header{flex-direction:column;align-items:flex-start;}
+  .main-nav{overflow-x:auto;width:100%;}
+  .dashboard-cards{grid-template-columns:repeat(2,1fr);}
+  .filters-panel.open{grid-template-columns:1fr;}
+  .news-feed{grid-template-columns:1fr;}
+  .toolbar{flex-direction:column;}
+  .side-panel{width:85%;}
+}

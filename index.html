@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Global Marketing & Trade Intelligence</title>
+<meta name="description" content="Real-time global news monitoring for marketing, sales and international trade professionals.">
+<meta property="og:title" content="Global Marketing & Trade Intelligence">
+<meta property="og:description" content="Real-time global news monitoring for marketing, sales and international trade.">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="css/styles.css">
+<link rel="stylesheet" href="css/themes.css">
+<link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="header-left">
+    <span class="logo">🌐 GLOBAL MARKETING &amp; TRADE INTELLIGENCE</span>
+    <span class="subtitle">Real-Time Global News Monitoring for Marketing, Sales &amp; International Trade</span>
+  </div>
+  <nav class="main-nav" aria-label="Category navigation">
+    <a href="#" class="nav-link" data-category="All">TOP NEWS</a>
+    <a href="#" class="nav-link" data-category="Marketing">MARKETING</a>
+    <a href="#" class="nav-link" data-category="International Marketing">INTL MARKETING</a>
+    <a href="#" class="nav-link" data-category="Sales">SALES</a>
+    <a href="#" class="nav-link" data-category="Trade">TRADE</a>
+    <a href="#" class="nav-link" data-category="International Trade">INTL TRADE</a>
+  </nav>
+  <div class="header-controls">
+    <button id="refresh-btn" aria-label="Refresh news">🔄 Refresh</button>
+    <button id="theme-toggle" aria-label="Toggle theme">🌙 Dark</button>
+    <button id="export-csv" aria-label="Export CSV">Export CSV</button>
+    <button id="settings-toggle" aria-label="Open settings">⚙ Settings</button>
+  </div>
+</header>
+
+<div id="status-banner" role="status"></div>
+<div id="loading-indicator" style="display:none;">Loading live news…</div>
+
+<div id="settings-panel" class="side-panel" aria-label="Settings">
+  <h3>Settings</h3>
+  <label>Auto-refresh interval
+    <select id="setting-auto-refresh">
+      <option value="15">15 minutes</option>
+      <option value="30" selected>30 minutes</option>
+      <option value="60">60 minutes</option>
+      <option value="0">Manual only</option>
+    </select>
+  </label>
+  <label>Max articles
+    <select id="setting-max-articles">
+      <option value="50">50</option>
+      <option value="150" selected>150</option>
+      <option value="300">300</option>
+    </select>
+  </label>
+  <button id="setting-reset">Reset Settings</button>
+  <details><summary>Technical Details</summary><pre id="technical-details"></pre></details>
+</div>
+
+<main>
+  <section class="dashboard-cards">
+    <div class="dash-card"><span id="count-total">0</span><label>Latest Stories</label></div>
+    <div class="dash-card"><span id="count-high">0</span><label>High Importance</label></div>
+    <div class="dash-card"><span id="count-marketing">0</span><label>Marketing</label></div>
+    <div class="dash-card"><span id="count-intl-marketing">0</span><label>Intl Marketing</label></div>
+    <div class="dash-card"><span id="count-sales">0</span><label>Sales</label></div>
+    <div class="dash-card"><span id="count-trade">0</span><label>Trade</label></div>
+    <div class="dash-card"><span id="count-intl-trade">0</span><label>Intl Trade</label></div>
+    <div class="dash-card"><span id="count-global">0</span><label>Global</label></div>
+  </section>
+
+  <section class="market-pulse-section">
+    <h3>Today's Global Market Pulse <small>(story volume by country — not a forecast)</small></h3>
+    <div id="market-pulse" class="pulse-list"></div>
+  </section>
+
+  <section class="region-nav" aria-label="Country and region filters">
+    <button class="region-chip" data-country="All">GLOBAL</button>
+    <button class="region-chip" data-country="United States">United States</button>
+    <button class="region-chip" data-country="Canada">Canada</button>
+    <button class="region-chip" data-country="United Kingdom">United Kingdom</button>
+    <button class="region-chip" data-country="European Union">European Union</button>
+    <button class="region-chip" data-country="China">China</button>
+    <button class="region-chip" data-country="Japan">Japan</button>
+    <button class="region-chip" data-country="South Korea">South Korea</button>
+    <button class="region-chip" data-country="Singapore">Singapore</button>
+    <button class="region-chip" data-country="India">India</button>
+    <button class="region-chip" data-country="Brazil">Brazil</button>
+    <button class="region-chip" data-country="Russia">Russia</button>
+    <button class="region-chip" data-country="United Arab Emirates">UAE</button>
+  </section>
+
+  <section class="toolbar">
+    <input id="search-input" type="search" placeholder="Search: China tariff, AI marketing, India exports…" aria-label="Search news">
+    <button id="filters-toggle">Filters</button>
+  </section>
+
+  <section id="filters-panel" class="filters-panel">
+    <select id="filter-category" data-default="All">
+      <option value="All">All Categories</option>
+      <option>Marketing</option><option>International Marketing</option>
+      <option>Sales</option><option>Trade</option><option>International Trade</option>
+    </select>
+    <select id="filter-country" data-default="All">
+      <option value="All">All Countries</option>
+      <option>United States</option><option>Canada</option><option>United Kingdom</option>
+      <option>European Union</option><option>China</option><option>Japan</option>
+      <option>South Korea</option><option>Singapore</option><option>Vietnam</option>
+      <option>Thailand</option><option>Malaysia</option><option>Indonesia</option>
+      <option>Philippines</option><option>Cambodia</option><option>Laos</option>
+      <option>Myanmar</option><option>Brunei</option><option>India</option>
+      <option>United Arab Emirates</option><option>Brazil</option><option>Russia</option>
+    </select>
+    <select id="filter-region" data-default="All">
+      <option value="All">All Regions</option>
+      <option>North America</option><option>Europe</option><option>East Asia</option>
+      <option>Southeast Asia</option><option>South Asia</option><option>Middle East</option>
+      <option>Latin America</option><option>Eurasia</option><option>Global</option>
+    </select>
+    <select id="filter-source" data-default="All"><option value="All">All Sources</option></select>
+    <select id="filter-tier" data-default="All">
+      <option value="All">All Tiers</option>
+      <option value="1">Tier 1</option><option value="2">Tier 2</option>
+      <option value="3">Tier 3</option><option value="4">Tier 4</option>
+    </select>
+    <select id="filter-importance" data-default="All">
+      <option value="All">All Importance</option>
+      <option>BREAKING</option><option>HIGH IMPORTANCE</option><option>IMPORTANT</option><option>STANDARD</option>
+    </select>
+    <select id="filter-verification" data-default="All">
+      <option value="All">All Verification</option>
+      <option value="Verified Source">Verified</option><option value="UNVERIFIED">Unverified</option>
+    </select>
+    <select id="filter-freshness" data-default="24">
+      <option value="6">Last 6 hours</option><option value="12">Last 12 hours</option>
+      <option value="24" selected>Last 24 hours</option><option value="72">Last 3 days</option>
+      <option value="168">Last 7 days</option>
+    </select>
+    <button id="clear-filters">CLEAR FILTERS</button>
+  </section>
+
+  <section class="status-row">
+    <span id="last-updated">Last Updated: —</span>
+    <span id="next-update"></span>
+  </section>
+
+  <section id="source-status-panel">
+    <h4>Source Status</h4>
+    <div id="source-status-list"></div>
+  </section>
+
+  <section id="news-feed" class="news-feed" aria-live="polite"></section>
+  <button id="load-more" class="load-more">Load More</button>
+</main>
+
+<div id="news-modal" class="modal" role="dialog" aria-modal="true" style="display:none;">
+  <div class="modal-content">
+    <button class="modal-close" aria-label="Close">&times;</button>
+    <div id="modal-body"></div>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <p>Headlines, short summaries and metadata only. Full articles remain the property of their original publishers — always follow "Read Original Article" for complete reporting.</p>
+</footer>
+
+<script src="config/countries.js"></script>
+<script src="config/categories.js"></script>
+<script src="config/settings.js"></script>
+<script src="js/deduplication.js"></script>
+<script src="js/ranking.js"></script>
+<script src="js/relevance.js"></script>
+<script src="js/storage.js"></script>
+<script src="js/csv-export.js"></script>
+<script src="js/filters.js"></script>
+<script src="js/search.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
