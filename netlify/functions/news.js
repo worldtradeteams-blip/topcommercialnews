@@ -106,7 +106,10 @@ exports.handler = async function () {
   for (const item of results) {
     const text = `${item.title} ${item.rawSummary}`;
     const { category, score, matchedCategories } = detectCategory(text);
-    if (!category || score < 1) continue; // must genuinely match dictionary
+    // Require at least 2 keyword hits (not just 1) so a single incidental
+    // mention — e.g. "trade" used loosely in an unrelated political story —
+    // doesn't get the article classified as Trade/Marketing/Sales content.
+    if (!category || score < 2) continue;
     const countries = detectCountries(text);
     classified.push({
       id: Buffer.from(item.url || item.title).toString("base64").slice(0, 24),
