@@ -13,21 +13,26 @@
 // SOURCE_DIRECTORY below for reference even where no feed is wired up yet.
 const SOURCES = [
   // --- Tier 1: wire services / top-tier global business press ---
-  { id: "reuters-business", name: "Reuters", tier: 1, url: "https://feeds.reuters.com/reuters/businessNews" },
+  // Reuters and AP retired their old public RSS endpoints; scoped Google News
+  // RSS queries (site: + commercial keywords) are used instead. This is a
+  // legitimate public RSS mechanism (no scraping/bypass) and, as a bonus,
+  // narrows results to marketing/trade/sales topics rather than all general
+  // and political news from these outlets.
+  { id: "reuters-trade", name: "Reuters", tier: 1, url: "https://news.google.com/rss/search?q=site:reuters.com+(marketing+OR+trade+OR+tariff+OR+export+OR+import+OR+sales+OR+advertising)+when:2d&hl=en-US&gl=US&ceid=US:en" },
+  { id: "ap-trade", name: "Associated Press", tier: 1, url: "https://news.google.com/rss/search?q=site:apnews.com+(marketing+OR+trade+OR+tariff+OR+export+OR+import+OR+sales+OR+retail)+when:2d&hl=en-US&gl=US&ceid=US:en" },
   { id: "bbc-business", name: "BBC Business", tier: 1, url: "http://feeds.bbci.co.uk/news/business/rss.xml" },
   { id: "ft", name: "Financial Times", tier: 1, url: "https://www.ft.com/rss/home" },
-  { id: "ap-business", name: "Associated Press", tier: 1, url: "https://apnews.com/hub/business.rss" },
   { id: "guardian-business", name: "The Guardian Business", tier: 1, url: "https://www.theguardian.com/business/rss" },
   { id: "nikkei-asia", name: "Nikkei Asia", tier: 1, url: "https://asia.nikkei.com/rss/feed/nar" },
 
   // --- Tier 2: reputable business / specialist press ---
   { id: "cnbc-world", name: "CNBC", tier: 2, url: "https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=100727362" },
   { id: "marketwatch", name: "MarketWatch", tier: 2, url: "http://feeds.marketwatch.com/marketwatch/topstories/" },
-  { id: "forbes", name: "Forbes", tier: 2, url: "https://www.forbes.com/business/feed/" },
+  { id: "forbes-cmo", name: "Forbes", tier: 2, url: "https://www.forbes.com/marketing/feed/" },
   { id: "fortune", name: "Fortune", tier: 2, url: "https://fortune.com/feed/" },
   { id: "business-insider", name: "Business Insider", tier: 2, url: "https://www.businessinsider.com/rss" },
   { id: "axios", name: "Axios", tier: 2, url: "https://api.axios.com/feed/" },
-  { id: "politico", name: "POLITICO", tier: 2, url: "https://rss.politico.com/economy.xml" },
+  { id: "politico-trade", name: "POLITICO", tier: 2, url: "https://rss.politico.com/economy.xml" },
   { id: "fastcompany", name: "Fast Company", tier: 2, url: "https://www.fastcompany.com/rss.xml" },
   { id: "inc", name: "Inc.", tier: 2, url: "https://www.inc.com/rss" },
   { id: "entrepreneur", name: "Entrepreneur", tier: 2, url: "https://www.entrepreneur.com/latest.rss" },
@@ -35,38 +40,54 @@ const SOURCES = [
   { id: "scmp", name: "South China Morning Post", tier: 2, url: "https://www.scmp.com/rss/91/feed" },
   { id: "koreaherald", name: "The Korea Herald", tier: 2, url: "http://www.koreaherald.com/rss/020000000000.xml" },
   { id: "japantimes", name: "The Japan Times", tier: 2, url: "https://www.japantimes.co.jp/news_category/business/feed/" },
-  { id: "straitstimes-business", name: "The Straits Times", tier: 2, url: "https://www.straitstimes.com/business/rss.xml" },
-  { id: "economictimes", name: "The Economic Times", tier: 2, url: "https://economictimes.indiatimes.com/rssfeedsdefault.cfm" },
+  { id: "straitstimes-business", name: "The Straits Times", tier: 2, url: "https://news.google.com/rss/search?q=site:straitstimes.com+business+when:2d&hl=en-US&gl=US&ceid=US:en" },
+  { id: "economictimes", name: "The Economic Times", tier: 2, url: "https://news.google.com/rss/search?q=site:economictimes.indiatimes.com+(marketing+OR+trade+OR+retail+OR+export)+when:2d&hl=en-US&gl=US&ceid=US:en" },
   { id: "businesstoday-india", name: "Business Today India", tier: 2, url: "https://www.businesstoday.in/rssfeeds/?id=225346" },
   { id: "moneycontrol", name: "Moneycontrol", tier: 2, url: "https://www.moneycontrol.com/rss/business.xml" },
   { id: "arabianbusiness", name: "Arabian Business", tier: 2, url: "https://www.arabianbusiness.com/feed" },
-  { id: "gulfbusiness", name: "Gulf Business", tier: 2, url: "https://gulfbusiness.com/feed/" },
+  { id: "gulfbusiness", name: "Gulf Business", tier: 2, url: "https://news.google.com/rss/search?q=site:gulfbusiness.com+when:3d&hl=en-US&gl=US&ceid=US:en" },
   { id: "khaleejtimes-business", name: "Khaleej Times", tier: 2, url: "https://www.khaleejtimes.com/business?rss=true" },
-  { id: "globalnews-ca-business", name: "The Globe and Mail", tier: 2, url: "https://www.theglobeandmail.com/business/rss/" },
-  { id: "afr", name: "Australian Financial Review", tier: 2, url: "https://www.afr.com/rss/companies" },
+  { id: "globalnews-ca-business", name: "The Globe and Mail", tier: 2, url: "https://news.google.com/rss/search?q=site:theglobeandmail.com+business+(trade+OR+marketing+OR+retail+OR+export)+when:2d&hl=en-US&gl=US&ceid=US:en" },
+  { id: "afr", name: "Australian Financial Review", tier: 2, url: "https://news.google.com/rss/search?q=site:afr.com+when:2d&hl=en-US&gl=US&ceid=US:en" },
   { id: "smh-business", name: "Sydney Morning Herald", tier: 2, url: "https://www.smh.com.au/rss/business.xml" },
 
   // --- Tier 3: established industry / specialist marketing, sales & trade press ---
-  { id: "adage", name: "Ad Age", tier: 3, url: "https://adage.com/rss.xml" },
+  // (dedicated marketing/sales titles, weighted more heavily than general
+  // newspapers, so commercial content isn't drowned out by macro/political
+  // coverage from the broad business press above)
+  { id: "adage", name: "Ad Age", tier: 3, url: "https://news.google.com/rss/search?q=site:adage.com+when:2d&hl=en-US&gl=US&ceid=US:en" },
   { id: "adweek", name: "Adweek", tier: 3, url: "https://www.adweek.com/feed/" },
   { id: "marketingdive", name: "Marketing Dive", tier: 3, url: "https://www.marketingdive.com/feeds/news/" },
   { id: "digiday", name: "Digiday", tier: 3, url: "https://digiday.com/feed/" },
-  { id: "mediapost", name: "MediaPost", tier: 3, url: "https://www.mediapost.com/rss/" },
+  { id: "mediapost", name: "MediaPost", tier: 3, url: "https://news.google.com/rss/search?q=site:mediapost.com+when:2d&hl=en-US&gl=US&ceid=US:en" },
   { id: "searchenginejournal", name: "Search Engine Journal", tier: 3, url: "https://www.searchenginejournal.com/feed/" },
-  { id: "searchengineland", name: "Search Engine Land", tier: 3, url: "https://searchengineland.com/feed" },
+  { id: "searchengineland", name: "Search Engine Land", tier: 3, url: "https://news.google.com/rss/search?q=site:searchengineland.com+when:3d&hl=en-US&gl=US&ceid=US:en" },
   { id: "retaildive", name: "Retail Dive", tier: 3, url: "https://www.retaildive.com/feeds/news/" },
-  { id: "prweek", name: "PRWeek", tier: 3, url: "https://www.prweek.com/us/rss" },
+  { id: "prweek", name: "PRWeek", tier: 3, url: "https://news.google.com/rss/search?q=site:prweek.com+when:3d&hl=en-US&gl=US&ceid=US:en" },
   { id: "socialmediatoday", name: "Social Media Today", tier: 3, url: "https://www.socialmediatoday.com/feeds/news/" },
-  { id: "thedrum", name: "The Drum", tier: 3, url: "https://www.thedrum.com/rss" },
+  { id: "thedrum", name: "The Drum", tier: 3, url: "https://news.google.com/rss/search?q=site:thedrum.com+when:2d&hl=en-US&gl=US&ceid=US:en" },
   { id: "hubspot-sales", name: "HubSpot Sales Blog", tier: 3, url: "https://blog.hubspot.com/sales/rss.xml" },
   { id: "supplychaindive", name: "Supply Chain Dive", tier: 3, url: "https://www.supplychaindive.com/feeds/news/" },
   { id: "freightwaves", name: "FreightWaves", tier: 3, url: "https://www.freightwaves.com/news/feed" },
   { id: "joc", name: "Journal of Commerce", tier: 3, url: "https://www.joc.com/rss.xml" },
-  { id: "logisticsmgmt", name: "Logistics Management", tier: 3, url: "https://www.logisticsmgmt.com/rss/topstories.xml" },
-  { id: "inboundlogistics", name: "Inbound Logistics", tier: 3, url: "https://www.inboundlogistics.com/cms/feed/" },
+  { id: "logisticsmgmt", name: "Logistics Management", tier: 3, url: "https://news.google.com/rss/search?q=site:logisticsmgmt.com+when:3d&hl=en-US&gl=US&ceid=US:en" },
+  { id: "inboundlogistics", name: "Inbound Logistics", tier: 3, url: "https://news.google.com/rss/search?q=site:inboundlogistics.com+when:3d&hl=en-US&gl=US&ceid=US:en" },
   { id: "theloadstar", name: "The Loadstar", tier: 3, url: "https://theloadstar.com/feed/" },
-  { id: "marketingweek", name: "Marketing Week", tier: 3, url: "https://www.marketingweek.com/feed/" },
-  { id: "campaignlive-uk", name: "Campaign UK", tier: 3, url: "https://www.campaignlive.co.uk/rss/news" },
+  { id: "marketingweek", name: "Marketing Week", tier: 3, url: "https://news.google.com/rss/search?q=site:marketingweek.com+when:2d&hl=en-US&gl=US&ceid=US:en" },
+  { id: "campaignlive-uk", name: "Campaign UK", tier: 3, url: "https://news.google.com/rss/search?q=site:campaignlive.co.uk+when:2d&hl=en-US&gl=US&ceid=US:en" },
+
+  // --- Additional dedicated marketing/sales/e-commerce titles, added to
+  // increase commercial-content share relative to general/political news ---
+  { id: "thinkwithgoogle", name: "Think with Google", tier: 3, url: "https://www.thinkwithgoogle.com/feed/intl/en-us/" },
+  { id: "emarketer", name: "eMarketer", tier: 3, url: "https://www.emarketer.com/rss/all/" },
+  { id: "cmi", name: "Content Marketing Institute", tier: 3, url: "https://contentmarketinginstitute.com/feed/" },
+  { id: "chiefmarketer", name: "Chief Marketer", tier: 3, url: "https://www.chiefmarketer.com/feed/" },
+  { id: "martech-org", name: "MarTech", tier: 3, url: "https://martech.org/feed/" },
+  { id: "salesforce-blog", name: "Salesforce Blog", tier: 3, url: "https://www.salesforce.com/blog/feed/" },
+  { id: "nrf-retail", name: "National Retail Federation", tier: 2, url: "https://nrf.com/rss.xml" },
+  { id: "internetretailer", name: "Digital Commerce 360", tier: 3, url: "https://www.digitalcommerce360.com/feed/" },
+  { id: "warc-news", name: "WARC", tier: 3, url: "https://www.warc.com/rss/newsandopinion" },
+  { id: "gtreview", name: "Global Trade Review", tier: 3, url: "https://www.gtreview.com/feed/" },
 ];
 
 // Reference-only directory of every source supplied by the user, including
